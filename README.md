@@ -1,5 +1,7 @@
 # The Tasks
 
+> 💼 Proyecto realizado por [Dobiteus](https://dobiteus.xys)
+
 Este proyecto es una aplicación web fullstack desarrollada en Laravel 12 para el backend e Inertia + React para el frontend. La aplicación permite a los usuarios autenticados gestionar una lista de tareas, con funciones de CRUD (crear, leer, actualizar y eliminar tareas), roles (admin / user) y autenticación usando Laravel Sanctum (autenticación basada en cookies para la SPA).
 
 Además, se implementa una API REST que puede ser consumida por terceros, la cual está protegida con Sanctum y permite emitir tokens en caso de necesitar autenticación basada en API.
@@ -120,13 +122,9 @@ Cuando accedas a la aplicación desde el navegador, si todo está bien configura
 ```
 
 | Parámetro                  | Tipo     | Descripción                                     |
-| :------------------------- | :------- | :---------------------------------------------- |
 | `name`                     | `string` | **Requerido**. Nombre del usuario               |
-| :------------------------- | :------- | :---------------------------------------------- |
 | `email`                    | `string` | **Requerido**. Correo único para iniciar sesión |
-| :------------------------- | :------- | :---------------------------------------------- |
 | `password`                 | `string` | **Requerido**. Contraseña                       |
-| :------------------------- | :------- | :---------------------------------------------- |
 | `password_confirmation`    | `string` | **Requerido**. Confirmación de la contraseña    |
 
 El registro manda un **token** en la respuesta. Este token debe ser enviado en la cabecera en futuras peticiones: `Authorization: Bearer <token>`
@@ -137,9 +135,7 @@ El registro manda un **token** en la respuesta. Este token debe ser enviado en l
   POST /api/login
 ```
 | Parámetro                  | Tipo     | Descripción                                     |
-| :------------------------- | :------- | :---------------------------------------------- |
 | `email`                    | `string` | **Requerido**. Correo para iniciar sesión       |
-| :------------------------- | :------- | :---------------------------------------------- |
 | `password`                 | `string` | **Requerido**. Contraseña                       |
 
 El endpoint manda un **token** en la respuesta. Este token debe ser enviado en la cabecera en futuras peticiones: `Authorization: Bearer <token>`
@@ -171,17 +167,11 @@ El endpoint manda un **token** en la respuesta. Este token debe ser enviado en l
 ```
 
 | Parámetro                  | Tipo      | Descripción                                     |
-| :------------------------- | :-------- | :---------------------------------------------- |
 | `title`                    | `string`  | **Requerido**. Nombre de la tarea               |
-| :------------------------- | :-------- | :---------------------------------------------- |
 | `description`              | `string`  | Detalles de la tarea                            |
-| :------------------------- | :-------- | :---------------------------------------------- |
 | `due_date`                 | `date`    | Fecha límite para realizar la tarea             |
-| :------------------------- | :-------- | :---------------------------------------------- |
 | `status`                   | `string`  | **Requerido**. Estatus de la tarea              |
-| :------------------------- | :-------- | :---------------------------------------------- |
 | `is_urgent`                | `boolean` | Marca si la tarea es urgente                    |
-| :------------------------- | :-------- | :---------------------------------------------- |
 | `category`                 | `string`  | **Requerido**. Categoría de la tarea            |
 
 #### Actualizar una tarea
@@ -212,11 +202,8 @@ Mismos parámetros que el método `POST`, pero pueden ser opcionales
 ```
 
 | Parámetro                  | Tipo     | Descripción                      |
-| :------------------------- | :------- | :------------------------------- |
 | `name`                     | `string` | Nombre del usuario               |
-| :------------------------- | :------- | :------------------------------- |
 | `email`                    | `string` | Correo único para iniciar sesión |
-| :------------------------- | :------- | :------------------------------- |
 | `role`                     | `string` | Rol de la cuenta                 |
 
 #### Eliminar usuarios
