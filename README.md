@@ -1,6 +1,6 @@
 # The Tasks
 
-> 💼 Proyecto realizado por [Dobiteus](https://dobiteus.xys)
+> 💼 Proyecto realizado por [Dobiteus](https://dobiteus.xyz)
 
 Este proyecto es una aplicación web fullstack desarrollada en Laravel 12 para el backend e Inertia + React para el frontend. La aplicación permite a los usuarios autenticados gestionar una lista de tareas, con funciones de CRUD (crear, leer, actualizar y eliminar tareas), roles (admin / user) y autenticación usando Laravel Sanctum (autenticación basada en cookies para la SPA).
 
