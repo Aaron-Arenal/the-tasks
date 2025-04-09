@@ -1,5 +1,5 @@
 import '../css/app.css';
-
+import './lib/axios-config'
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';

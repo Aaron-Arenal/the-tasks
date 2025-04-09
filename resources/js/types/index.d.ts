@@ -35,9 +35,31 @@ export interface User {
     id: number;
     name: string;
     email: string;
+    role: string;
     avatar?: string;
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
+}
+
+export interface Task {
+    id: number;
+    title: string;
+    description: string;
+    status: string;
+    due_date: string;
+    is_urgent: boolean;
+    category: string;
+    created_at: string;
+    [key: string]: unknown;
+}
+
+export interface User {
+    id: number;
+    name: string;
+    email: string;
+    role: 'user' | 'admin';
+    created_at: string;
+    updated_at: string;
 }
