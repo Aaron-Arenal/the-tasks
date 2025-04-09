@@ -36,8 +36,9 @@ La interfaz utiliza Tailwind CSS, shadcn/ui para componentes y Lucide Icons para
 ### 3. Instalar dependencias del frontend
 
 ```bash
-  npm install
+  npm install --legacy-peer-deps
 ```
+De momento, por problemas con la librería de componentes y React. Si no funciona usa `--force` en vez de `--legacy-peer-deps`
 
 ### 4. Configurar el archivo `.env`
 
