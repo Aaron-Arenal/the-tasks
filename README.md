@@ -127,6 +127,7 @@ Cuando accedas a la aplicación desde el navegador, si todo está bien configura
 ```
 
 | Parámetro                  | Tipo     | Descripción                                     |
+|----------------------------|----------|-------------------------------------------------|
 | `name`                     | `string` | **Requerido**. Nombre del usuario               |
 | `email`                    | `string` | **Requerido**. Correo único para iniciar sesión |
 | `password`                 | `string` | **Requerido**. Contraseña                       |
@@ -141,6 +142,7 @@ El registro manda un **token** en la respuesta. Este token debe ser enviado en l
 ```
 
 | Parámetro                  | Tipo     | Descripción                                     |
+|----------------------------|----------|-------------------------------------------------|
 | `email`                    | `string` | **Requerido**. Correo para iniciar sesión       |
 | `password`                 | `string` | **Requerido**. Contraseña                       |
 
@@ -161,6 +163,7 @@ El endpoint manda un **token** en la respuesta. Este token debe ser enviado en l
 ```
 
 | Parámetro   | Tipo      | Descripción                                   |
+|-------------|-----------|-----------------------------------------------|
 | `search`    | `string`  | Texto a buscar dentro de title o description  |
 | `status`    | `string`  | Filtro por status                             |
 | `category`  | `string`  | Filtro por category                           |
@@ -179,6 +182,7 @@ El endpoint manda un **token** en la respuesta. Este token debe ser enviado en l
 ```
 
 | Parámetro                  | Tipo      | Descripción                                     |
+|----------------------------|-----------|-------------------------------------------------|
 | `title`                    | `string`  | **Requerido**. Nombre de la tarea               |
 | `description`              | `string`  | Detalles de la tarea                            |
 | `due_date`                 | `date`    | Fecha límite para realizar la tarea             |
@@ -214,10 +218,11 @@ Mismos parámetros que el método `POST`, pero pueden ser opcionales
   PUT /api/admin/users/{id}
 ```
 
-| Parámetro                  | Tipo     | Descripción                      |
-| `name`                     | `string` | Nombre del usuario               |
-| `email`                    | `string` | Correo único para iniciar sesión |
-| `role`                     | `string` | Rol de la cuenta                 |
+| Parámetro | Tipo     | Descripción                      |
+|-----------|----------|----------------------------------|
+| `name`    | `string` | Nombre del usuario               |
+| `email`   | `string` | Correo único para iniciar sesión |
+| `role`    | `string` | Rol de la cuenta                 |
 
 #### Eliminar usuarios
 
