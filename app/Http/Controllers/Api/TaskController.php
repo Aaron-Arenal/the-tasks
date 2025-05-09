@@ -6,16 +6,47 @@ use App\Enums\TaskCategory;
 use App\Enums\TaskStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $tasks = Auth::user()->tasks;
+            $search = $request->search;
+            $status = $request->status;
+            $category = $request->category;
+            $isUrgent = $request->is_urgent === 'true' ? true : false;
+
+            $query = Auth::user()->tasks();
+            $searchTerms = explode(' ', $search);
+            $fields = ['title', 'description'];
+
+            $query->when($request->filled('search'), function ($q) use ($searchTerms, $fields) {
+                foreach ($searchTerms as $term) {
+                    $q->where(function ($innerQuery) use ($term, $fields) {
+                        foreach ($fields as $field) {
+                            $innerQuery->orWhereRaw("LOWER(tasks.$field) LIKE ?", ['%' . strtolower($term) . '%']);
+                        }
+                    });
+                }
+            })
+            ->when($request->filled('status'), function($q) use ($status) {
+                $q->where('status', $status);
+            })
+            ->when($request->filled('category'), function($q) use ($category) {
+                $q->where('category', $category);
+            })
+            ->when($request->filled('is_urgent'), function($q) use ($isUrgent) {
+                $q->where('is_urgent', $isUrgent);
+            });
+
+            $query->orderBy('is_urgent', 'desc');
+
+            $tasks = $query->get();
 
             return response()->json([
                 'data' => TaskResource::collection($tasks),
@@ -23,7 +54,7 @@ class TaskController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Error al obtener tareas: ' . $e->getMessage()
+                'message' => 'Error al obtener tareas: ' . $e->getMessage() . ' ' . $e->getLine(),
             ], 500);
         }
     }
@@ -141,6 +172,41 @@ class TaskController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Error al eliminar la tarea: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function summary()
+    {
+        try {
+            $tasks = Auth::user()->tasks;
+
+            $totalTasks = $tasks->count();
+            $completedTasks = $tasks->where('status', TaskStatus::COMPLETED)->count();
+            $inProgressTasks = $tasks->where('status', TaskStatus::IN_PROGRESS)->count();
+            $pendingTasks = $tasks->where('status', TaskStatus::PENDING)->count();
+            $urgentTasks = $tasks->where('is_urgent', true)->count();
+
+            $categories = TaskCategory::cases();
+            $categoryCounts = [];
+            foreach ($categories as $category) {
+                $categoryCounts[$category->value] = $tasks->where('category', $category->value)->count();
+            }
+
+            return response()->json([
+                'data'=> [
+                    'total_tasks' => $totalTasks,
+                    'completed_tasks' => $completedTasks,
+                    'in_progress_tasks' => $inProgressTasks,
+                    'pending_tasks' => $pendingTasks,
+                    'urgent_tasks' => $urgentTasks,
+                    'category_counts' => $categoryCounts
+                ],
+                'message' => 'Resumen de tareas obtenido exitosamente'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al obtener los datos: ' . $e->getMessage()
             ], 500);
         }
     }

@@ -44,6 +44,17 @@ class TaskApiTest extends TestCase
         $response->assertJsonCount(3, 'data');
     }
 
+    public function test_user_can_get_their_summary()
+    {
+        $user = User::factory()->hasTasks(3)->create();
+        Sanctum::actingAs($user);
+
+        $response = $this->getJson('/api/tasks/summary');
+
+        $response->assertStatus(200);
+        $response->assertJsonFragment(['total_tasks' => 3]);
+    }
+
     public function test_user_can_create_a_task()
     {
         $user = User::factory()->create();
@@ -87,7 +98,6 @@ class TaskApiTest extends TestCase
             'description' => 'Descripción de la tarea de prueba',
             'status' => TaskStatus::PENDING->value,
             'due_date' => now()->addDays(7)->toDateString(),
-            'is_urgent' => false,
             'category' => TaskCategory::PERSONAL->value,
         ]);
 
@@ -96,7 +106,6 @@ class TaskApiTest extends TestCase
             'description' => 'Descripción de la tarea actualizada',
             'status' => TaskStatus::COMPLETED->value,
             'due_date' => $dueDate,
-            'is_urgent' => true,
             'category' => TaskCategory::WORK->value,
         ];
 
@@ -108,7 +117,6 @@ class TaskApiTest extends TestCase
             'description' => 'Descripción de la tarea actualizada',
             'status' => TaskStatus::COMPLETED->value,
             'due_date' => $dueDateForDB,
-            'is_urgent' => 1,
             'category' => TaskCategory::WORK->value,
         ]));
     }
@@ -136,6 +144,12 @@ class TaskApiTest extends TestCase
     public function test_unauthenticated_user_cannot_access_tasks()
     {
         $response = $this->getJson('/api/tasks');
+        $response->assertStatus(401);
+    }
+
+    public function test_unautehnticated_user_cannot_access_summary()
+    {
+        $response = $this->getJson('api/tasks/summary');
         $response->assertStatus(401);
     }
 

@@ -38,6 +38,7 @@ La interfaz utiliza Tailwind CSS, shadcn/ui para componentes y Lucide Icons para
 ```bash
   npm install --legacy-peer-deps
 ```
+
 De momento, por problemas con la librería de componentes y React. Si no funciona usa `--force` en vez de `--legacy-peer-deps`
 
 ### 4. Configurar el archivo `.env`
@@ -63,6 +64,7 @@ Configura, al menos, las siguientes variables
 ```
 
 Si usas SQLite, crea el archivo de base de datos:
+
 ```bash
   touch database/database.sqlite
 ```
@@ -72,7 +74,8 @@ Si usas SQLite, crea el archivo de base de datos:
 ```bash
   php artisan migrate --seed
 ```
-Este paso ejecuta las migraciones y pobla la base de datos. El seeder crea usuarios de prueba (por ejemplo, un usuario normal y un admin con correos conocidos, como usuario@prueba.com y admin@prueba.com con contraseñas definidas en el seeder) y asigna tareas mediante factories.
+
+Este paso ejecuta las migraciones y pobla la base de datos. El seeder crea usuarios de prueba (por ejemplo, un usuario normal y un admin con correos conocidos, como `usuario@prueba.com` y `admin@prueba.com` con contraseñas definidas en el seeder) y asigna tareas mediante factories.
 
 ### 6. Publicar archivos de configuración (CORS, Sanctum, etc.)
 
@@ -99,6 +102,7 @@ Para iniciar el servidor de Laravel, ejecuta:
 ```bash
   php artisan serve
 ```
+
 El backend se iniciará en `http://localhost:8000`
 
 ### Frontend
@@ -135,6 +139,7 @@ El registro manda un **token** en la respuesta. Este token debe ser enviado en l
 ```http
   POST /api/login
 ```
+
 | Parámetro                  | Tipo     | Descripción                                     |
 | `email`                    | `string` | **Requerido**. Correo para iniciar sesión       |
 | `password`                 | `string` | **Requerido**. Contraseña                       |
@@ -154,6 +159,12 @@ El endpoint manda un **token** en la respuesta. Este token debe ser enviado en l
 ```http
   GET /api/tasks
 ```
+
+| Parámetro   | Tipo      | Descripción                                   |
+| `search`    | `string`  | Texto a buscar dentro de title o description  |
+| `status`    | `string`  | Filtro por status                             |
+| `category`  | `string`  | Filtro por category                           |
+| `is_urgent` | `boolean` | Mostrar solo urgentes                         |
 
 #### Obtener una tarea individual
 
@@ -180,6 +191,7 @@ El endpoint manda un **token** en la respuesta. Este token debe ser enviado en l
 ```http
   PUT /api/tasks/{id}
 ```
+
 Mismos parámetros que el método `POST`, pero pueden ser opcionales
 
 #### Eliminar una tarea

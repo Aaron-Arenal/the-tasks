@@ -6,10 +6,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon, Loader2 } from 'lucide-react';
+import { AlertCircle, Ban, BookOpen, Briefcase, CalendarIcon, CheckCircle, Clock, DollarSign, Heart, Home, Loader2, Plane, Save, Smartphone, User, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Task } from '@/types';
 import axios from '@/lib/axios-config';
+import { toast } from "sonner";
+import { ReactNode } from "react";
 
 interface TaskFormProps {
     task?: Task;
@@ -33,6 +35,24 @@ enum TaskCategory {
     Viaje = 'Viaje',
     Social = 'Social',
     Tecnologia = 'Tecnología'
+}
+
+const statusIcons: Record<string, ReactNode> = {
+    Pendiente: <AlertCircle className="w-4 h-4 mr-0.5" />,
+    "En progreso": <Clock className="w-4 h-4 mr-0.5" />,
+    Completada: <CheckCircle className="w-4 h-4 mr-0.5" />,
+};
+
+const categoryIcons: Record<string, ReactNode> = {
+    Trabajo: <Briefcase className="w-4 h-4 mr-0.5" />,
+    Estudio: <BookOpen className="w-4 h-4 mr-0.5" />,
+    Casa: <Home className="w-4 h-4 mr-0.5" />,
+    Personal: <User className="w-4 h-4 mr-0.5" />,
+    Finanzas: <DollarSign className="w-4 h-4 mr-0.5" />,
+    Salud: <Heart className="w-4 h-4 mr-0.5" />,
+    Viaje: <Plane className="w-4 h-4 mr-0.5" />,
+    Social: <Users className="w-4 h-4 mr-0.5" />,
+    Tecnología: <Smartphone className="w-4 h-4 mr-0.5" />,
 }
 
 export function TaskForm({ task, onSuccess }: TaskFormProps) {
@@ -60,17 +80,16 @@ export function TaskForm({ task, onSuccess }: TaskFormProps) {
             } else {
                 await axios.post('/api/tasks', normalizedData);
             }
-            //toast.success(`Tarea ${task ? 'actualizada' : 'creada'} correctamente`);
             onSuccess?.();
             
         } catch (error) {
-            //toast.error(`Error al ${task ? 'actualizar' : 'crear'} la tarea`);
+            toast.error(`Error al ${task ? 'actualizar' : 'crear'} la tarea`);
             console.error(error);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-[1000px]">
             <div className="space-y-4">
                 <div>
                     <Label htmlFor="title">Título *</Label>
@@ -109,6 +128,7 @@ export function TaskForm({ task, onSuccess }: TaskFormProps) {
                         <SelectContent>
                             {Object.values(TaskStatus).map((status) => (
                                 <SelectItem key={status} value={status}>
+                                    {statusIcons[status || "Pendiente"]}
                                     {status}
                                 </SelectItem>
                             ))}
@@ -158,22 +178,12 @@ export function TaskForm({ task, onSuccess }: TaskFormProps) {
                         <SelectContent>
                             {Object.values(TaskCategory).map((category) => (
                                 <SelectItem key={category} value={category}>
+                                    {categoryIcons[category || "Personal"]}
                                     {category}
                                 </SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
-                </div>
-
-                <div className="flex items-center space-x-2">
-                    <input
-                        type="checkbox"
-                        id="is_urgent"
-                        checked={data.is_urgent}
-                        onChange={(e) => setData('is_urgent', e.target.checked)}
-                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    />
-                    <Label htmlFor="is_urgent">Marcar como urgente</Label>
                 </div>
             </div>
 
@@ -184,10 +194,12 @@ export function TaskForm({ task, onSuccess }: TaskFormProps) {
                     onClick={() => window.history.back()}
                     disabled={processing}
                 >
+                    <Ban className="w-4 h-4 mr-2" />
                     Cancelar
                 </Button>
                 <Button type="submit" disabled={processing}>
                     {processing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {!processing && <Save className="w-4 h-4 mr-2" />}
                     {task ? 'Actualizar tarea' : 'Crear tarea'}
                 </Button>
             </div>

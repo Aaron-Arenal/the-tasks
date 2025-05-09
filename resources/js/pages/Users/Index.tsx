@@ -14,10 +14,8 @@ export default function UsersIndex() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Gestión de usuarios" />
-            <div className="container max-w-6xl py-8">
-                <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-2xl font-bold">Usuarios</h1>
-                </div>
+            <div className="flex items-center w-full h-full flex-1 flex-col gap-4 rounded-xl p-8">
+                <h1 className="text-2xl font-bold">Usuarios</h1>
                 <UsersList />
             </div>
         </AppLayout>

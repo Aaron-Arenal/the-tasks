@@ -10,7 +10,7 @@ export default function TaskCreate() {
     return (
         <AppLayout>
             <Head title="Crear nueva tarea" />
-            <div className="container max-w-2xl py-8">
+            <div className="flex items-center h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <h1 className="text-2xl font-bold mb-6">Crear Nueva Tarea</h1>
                 <TaskForm onSuccess={handleSuccess}/>
             </div>

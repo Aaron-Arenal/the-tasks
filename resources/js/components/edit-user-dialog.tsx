@@ -2,11 +2,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
+import { Ban, Loader2, Save } from 'lucide-react';
 import { User } from '@/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import axios from '@/lib/axios-config';
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 interface EditUserDialogProps {
     user: User | null;
@@ -39,10 +40,9 @@ export default function EditUserDialog({ user, onClose, onSuccess }: EditUserDia
             await axios.put(`/api/admin/users/${user?.id}`, formData);
             onSuccess();
             onClose();
-            // toast.success('Usuario actualizado');
+            toast.success('Usuario actualizado');
         } catch (error) {
-            console.error('Error:', error);
-            // toast.error('Error al actualizar');
+            toast.error('Error al actualizar: ' + error);
         } finally {
             setLoading(false);
         }
@@ -82,10 +82,12 @@ export default function EditUserDialog({ user, onClose, onSuccess }: EditUserDia
 
                     <div className="flex justify-end gap-2">
                         <Button type="button" variant="outline" onClick={onClose}>
+                            <Ban className="w-4 h-4 mr-2" />
                             Cancelar
                         </Button>
                         <Button type="submit" disabled={loading}>
                             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                            {!loading && <Save className="w-4 h-4 mr-2" />}
                             Guardar
                         </Button>
                     </div>
